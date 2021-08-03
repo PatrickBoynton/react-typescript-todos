@@ -64,19 +64,13 @@ const App = (): ReactElement => {
         // this helps to prevent stale state when updating.
         // This version takes the old state, selects the intended todo, marks it complete, then returns the updated list.
         setTodos((prevTodos) => {
-            // use your ids to select your correct todo
-            const selectedTodo = prevTodos.find((prevTodo) => prevTodo.id === todo.id);
-            if(selectedTodo){
-            // remove old todo from the previous list
-                const filteredTodos = prevTodos.filter((prevTodo) => prevTodo.id !== todo.id);
-                return [...filteredTodos, { ...selectedTodo, complete: true }];
-            }
-            // if there is no todo with the selected id, we're in trouble haha
-            return prevTodos;
+            const updatedTodos = prevTodos.map((prevTodo) => prevTodo.id === todo.id ? ({ ...todo, complete: true }) : prevTodo);
+            return updatedTodos;
         });
     };
 
     // There can only be one H1 per webpage for accessibility reasons. The h1, h2, h3 tags shouldn't be used for style, only for creating an outline on the page.
+    // https://www.w3.org/WAI/tutorials/page-structure/headings/
     const todoDisplay = todos.map((todo) => (
         <>
             <div className="display">
