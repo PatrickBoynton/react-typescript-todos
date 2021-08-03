@@ -27,14 +27,17 @@ const App = (): ReactElement => {
                 title: input,
                 complete: false,
             };
-            setTodos([newTodo, ...todos]);
+            // hook functions can take a callback that receives the old state as an argument.
+            // this helps to prevent stale state when updating.
+            setTodos((prevTodos) => [newTodo, ...prevTodos]);
         } else {
             onAddAlert();
         }
     };
 
     const onRemoveTodo = (id: Todo['id']) => {
-        setTodos(todos.filter((todo) => todo.id !== id));
+        // callback to ensure good state
+        setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
     };
 
     // nice
@@ -60,9 +63,8 @@ const App = (): ReactElement => {
 
     // be careful with your naming you have a few functions with the name 'todo' and that can be confusing
     const changeComplete = (todo: Todo): void => {
-        // hook functions can take a callback that receives the old state as an argument.
-        // this helps to prevent stale state when updating.
         // This version takes the old state, selects the intended todo, marks it complete, then returns the updated list.
+        // Notice again we're using a callback to ensure we don't use stale state.
         setTodos((prevTodos) => {
             const updatedTodos = prevTodos.map((prevTodo) => prevTodo.id === todo.id ? ({ ...todo, complete: true }) : prevTodo);
             return updatedTodos;
@@ -91,7 +93,7 @@ const App = (): ReactElement => {
             </div>
         </>
     ));
-
+    // could be that you intended the h2 below to be an h1 and the h1 above to be h2s? d
     return (
         <>
             <form onSubmit={handleSubmit}>
