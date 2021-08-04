@@ -8,7 +8,8 @@
     margin: 0 auto;
 }
 
- h1 {
+ p {
+     align-self: center;
      padding: 5px;
  }
 
