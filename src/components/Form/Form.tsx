@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, FormEvent } from 'react';
+import './Form.css';
 
 interface Props {
     handleSubmit: (event: FormEvent) => void;
