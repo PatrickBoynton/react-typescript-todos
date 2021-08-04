@@ -1,11 +1,16 @@
 .display {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    border: 2px solid #000;
+    border-radius: 6px;
+    font-size: 1.6rem;
+    width: 30%;
+    margin: 0 auto;
 }
 
-.display h1 {
-    align-self: center;
-}
+ h1 {
+     padding: 5px;
+ }
 
 .delete {
     padding: 5px 1rem;
