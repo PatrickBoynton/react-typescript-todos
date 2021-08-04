@@ -8,31 +8,30 @@ interface Todo {
 }
 
 const App = (): ReactElement => {
-    const [input, setInput] = useState({});
+    const [input, setInput] = useState('');
     const [todos, setTodos] = useState<Todo[]>([]);
-    const [todo, setTodo] = useState<Todo | null>(null);
     const [alert, setAlert] = useState<string>('');
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>): ChangeEvent<HTMLInputElement> => {
-        setInput({
-            ...input,
-            id: Math.round(Math.random() * 1000),
-            [event.target.name]: event.target.value,
-            complete: false,
-        });
+        setInput(event.target.value);
         return event;
     };
 
-    const onAddTodo = (todo: any) => {
-        if (todo['title']) {
-            setTodos([todo, ...todos]);
+    const onAdd = (): void => {
+        if (input) {
+            const newTodo = {
+                id: Math.round(Math.random() * 1000),
+                title: input,
+                complete: false,
+            };
+            setTodos([newTodo, ...todos]);
         } else {
             onAddAlert();
         }
     };
 
-    const onRemoveTodo = (id: Todo['id']) => {
-        setTodos(todos.filter((todo) => todo.id !== id));
+    const clearInput = (): void => {
+        setInput('');
     };
 
     const onAddAlert = (): void => {
@@ -42,14 +41,29 @@ const App = (): ReactElement => {
         }, 3000);
     };
 
+    const onDelete = (id: Todo['id']): void => {
+        setTodos(todos.filter((todo) => todo.id !== id));
+    };
+
     const handleSubmit = (event: FormEvent): void => {
         event.preventDefault();
-        onAddTodo(input);
+        onAdd();
+        clearInput();
     };
 
     const changeComplete = (todo: Todo): void => {
         todo.complete = !todo.complete;
-        setTodo({ id: todo.id, title: todo.title, complete: todo.complete });
+        setTodos((previousTodos) => {
+            const selectedTodo = previousTodos.find((previousTodo) => previousTodo.id === todo.id);
+            if (selectedTodo) {
+                const filteredTodos = previousTodos.filter(
+                    (previousTodo) => previousTodo.id !== todo.id
+                );
+                return [...filteredTodos, { ...selectedTodo, complete: true }];
+            }
+
+            return previousTodos;
+        });
     };
 
     const todoDisplay = todos.map((todo) => (
@@ -65,7 +79,7 @@ const App = (): ReactElement => {
                     }>
                     {todo.title}
                 </h1>
-                <button className="delete" onClick={() => onRemoveTodo(todo.id)}>
+                <button className="delete" onClick={() => onDelete(todo.id)}>
                     Delete
                 </button>
             </div>
