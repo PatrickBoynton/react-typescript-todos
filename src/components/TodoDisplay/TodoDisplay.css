@@ -1,0 +1,15 @@
+.display {
+    display: flex;
+    justify-content: center;
+}
+
+.display h1 {
+    align-self: center;
+}
+
+.delete {
+    padding: 5px 1rem;
+    background-color: #b31c1c;
+    color: #fff;
+    margin-left: 5px;
+}
