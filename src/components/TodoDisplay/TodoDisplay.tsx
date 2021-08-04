@@ -12,7 +12,7 @@ const TodoDisplay: FC<Props> = ({changeComplete, todo, onDelete}: Props) => {
     return (
         <>
             <div className="display">
-                <h1
+                <p
                     key={ todo.id }
                     onClick={ () => changeComplete(todo) }
                     style={
@@ -21,7 +21,7 @@ const TodoDisplay: FC<Props> = ({changeComplete, todo, onDelete}: Props) => {
                             : {textDecoration: 'none'}
                     }>
                     { todo.title }
-                </h1>
+                </p>
                 <button className="delete" onClick={ () => onDelete(todo.id) }>
                     Delete
                 </button>
