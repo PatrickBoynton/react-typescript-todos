@@ -1,13 +1,10 @@
-import { ChangeEvent, FormEvent, ReactElement, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import './App.css';
+import Form from './components/Form';
+import { Todo } from './models/Todo';
+import TodoDisplay from './components/TodoDisplay';
 
-interface Todo {
-    id: number;
-    title: string;
-    complete: boolean;
-}
-
-const App = (): ReactElement => {
+const App: FC = () => {
     const [input, setInput] = useState('');
     const [todos, setTodos] = useState<Todo[]>([]);
     const [alert, setAlert] = useState<string>('');
@@ -42,7 +39,7 @@ const App = (): ReactElement => {
     };
 
     const onDelete = (id: Todo['id']): void => {
-        setTodos(todos.filter((todo) => todo.id !== id));
+        setTodos(todos.filter((todo: Todo) => todo.id !== id));
     };
 
     const handleSubmit = (event: FormEvent): void => {
@@ -53,11 +50,13 @@ const App = (): ReactElement => {
 
     const changeComplete = (todo: Todo): void => {
         todo.complete = !todo.complete;
-        setTodos((previousTodos) => {
-            const selectedTodo = previousTodos.find((previousTodo) => previousTodo.id === todo.id);
+        setTodos((previousTodos: Todo[]) => {
+            const selectedTodo = previousTodos.find(
+                (previousTodo: Todo) => previousTodo.id === todo.id
+            );
             if (selectedTodo) {
                 const filteredTodos = previousTodos.filter(
-                    (previousTodo) => previousTodo.id !== todo.id
+                    (previousTodo: Todo) => previousTodo.id !== todo.id
                 );
                 return [...filteredTodos, { ...selectedTodo, complete: true }];
             }
@@ -66,36 +65,18 @@ const App = (): ReactElement => {
         });
     };
 
-    const todoDisplay = todos.map((todo) => (
-        <>
-            <div className="display">
-                <h1
-                    key={todo.id}
-                    onClick={() => changeComplete(todo)}
-                    style={
-                        todo.complete
-                            ? { textDecoration: 'line-through' }
-                            : { textDecoration: 'none' }
-                    }>
-                    {todo.title}
-                </h1>
-                <button className="delete" onClick={() => onDelete(todo.id)}>
-                    Delete
-                </button>
-            </div>
-        </>
+    const todoDisplay = todos.map((todo: Todo) => (
+        <TodoDisplay
+            key={todo.id}
+            changeComplete={changeComplete}
+            todo={todo}
+            onDelete={onDelete}
+        />
     ));
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <h2>Add a Todo</h2>
-                <label htmlFor="title">Title</label>
-                <span className={alert ? 'alert' : ''}>{alert}</span>
-                <input type="text" name="title" onChange={handleChange} />
-                <button type="submit">Add Todo</button>
-            </form>
-
+            <Form handleSubmit={handleSubmit} handleChange={handleChange} alert={alert} />
             {todoDisplay}
         </>
     );
