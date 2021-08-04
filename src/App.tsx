@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import './App.css';
-import Form from './components/Form';
+import Form from './components/Form/Form';
 import { Todo } from './models/Todo';
-import TodoDisplay from './components/TodoDisplay';
+import TodoDisplay from './components/TodoDisplay/TodoDisplay';
 
 const App: FC = () => {
     const [input, setInput] = useState('');
