@@ -10,15 +10,22 @@
     color: #fff;
 }
 
- p {
-     align-self: center;
-     margin: 0;
-     padding: 8px;
- }
+p {
+    align-self: center;
+    margin: 0;
+    padding: 8px;
+}
 
 .delete {
     padding: 5px 1rem;
     background-color: #b31c1c;
+    border: 2px solid white;
     color: #fff;
     margin-left: 5px;
+}
+
+.delete:hover {
+    border: 2px solid #b31c1c;
+    background-color: #FA8072FF;
+    color: #000;
 }
