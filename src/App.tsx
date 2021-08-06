@@ -16,7 +16,7 @@ const App: FC = () => {
 
     const onAdd = (): void => {
         if (input) {
-            const newTodo = {
+            const newTodo: Todo = {
                 id: Math.round(Math.random() * 1000),
                 title: input,
                 complete: false,
@@ -58,7 +58,7 @@ const App: FC = () => {
                 const filteredTodos = previousTodos.filter(
                     (previousTodo: Todo) => previousTodo.id !== todo.id
                 );
-                return [...filteredTodos, { ...selectedTodo, complete: true }];
+                return [...filteredTodos, {...selectedTodo, complete: true}];
             }
 
             return previousTodos;
@@ -66,18 +66,19 @@ const App: FC = () => {
     };
 
     const todoDisplay = todos.map((todo: Todo) => (
-        <TodoDisplay
-            key={todo.id}
-            changeComplete={changeComplete}
-            todo={todo}
-            onDelete={onDelete}
+        <TodoDisplay key={ todo.id }
+            changeComplete={ changeComplete }
+            todo={ todo }
+            onDelete={ onDelete }
         />
     ));
 
     return (
         <>
-            <Form handleSubmit={handleSubmit} handleChange={handleChange} alert={alert} />
-            {todoDisplay}
+            <Form handleSubmit={ handleSubmit }
+                handleChange={ handleChange }
+                alert={ alert } />
+            { todoDisplay }
         </>
     );
 };
