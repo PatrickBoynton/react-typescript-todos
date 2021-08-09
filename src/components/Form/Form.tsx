@@ -9,7 +9,6 @@ interface Props {
 }
 
 const Form: FC<Props> = ({handleSubmit, handleChange, alert}: Props) => {
-    // const alertDisplay = <Toast alert={ alert }>Test</Toast>;
     return (
         <form onSubmit={ handleSubmit }>
             <h2>Add a Todo</h2>
