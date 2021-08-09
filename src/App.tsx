@@ -15,15 +15,16 @@ const App: FC = () => {
     };
 
     const onAdd = (): void => {
+        const newTodo: Todo = {
+            id: Math.round(Math.random() * 1000),
+            title: input,
+            complete: false,
+        };
+
         if (input) {
-            const newTodo: Todo = {
-                id: Math.round(Math.random() * 1000),
-                title: input,
-                complete: false,
-            };
             setTodos([newTodo, ...todos]);
         } else {
-            onAddAlert();
+            onAddAlert('Needs a string to work.');
         }
     };
 
@@ -31,8 +32,8 @@ const App: FC = () => {
         setInput('');
     };
 
-    const onAddAlert = (): void => {
-        setAlert('Please add a title.');
+    const onAddAlert = (message: string): void => {
+        setAlert(message);
         setTimeout(() => {
             setAlert('');
         }, 3000);
@@ -50,10 +51,12 @@ const App: FC = () => {
 
     const changeComplete = (todo: Todo): void => {
         todo.complete = !todo.complete;
+
         setTodos((previousTodos: Todo[]) => {
             const selectedTodo = previousTodos.find(
                 (previousTodo: Todo) => previousTodo.id === todo.id
             );
+
             if (selectedTodo) {
                 const filteredTodos = previousTodos.filter(
                     (previousTodo: Todo) => previousTodo.id !== todo.id
